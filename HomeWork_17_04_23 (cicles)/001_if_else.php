@@ -16,7 +16,7 @@ if ($value > 5) {
 
 $timeToLearn = (bool)rand(0, 1);
 
-if ($timeToLearn == true) {
+if ($timeToLearn) {
     var_dump("Я как раз сейчас и учусь");
 } else {
     var_dump("Что значит еще не время? Нет, для учебы всегда есть время");
@@ -80,9 +80,7 @@ echo "\n";
 
 $dayNumber = rand(1, 7);
 
-if ($dayNumber == 1) {
-    echo "Сегодня выходной.";
-} elseif ($dayNumber == 7) {
+if ($dayNumber == 1 || 7) {
     echo "Сегодня выходной.";
 } else {
     echo "Сегодня будний день.";
