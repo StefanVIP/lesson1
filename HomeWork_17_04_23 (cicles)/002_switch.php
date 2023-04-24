@@ -31,9 +31,8 @@ switch ($myNumber) {
     case $myNumber % 2 == 0:
         echo "Четный. Ты не с нами!";
         break;
-    case $myNumber % 2 == !0:
+    default:
         echo "Добро пожаловать!";
-        break;
 }
 echo "\n";
 
@@ -45,28 +44,27 @@ echo "\n";
 
 $foods = ["Яблоко", "Клубника", "Апельсин", "Кабачок", "Патиссон", "Банан", "Арбуз", "Картошка", "Лягушачие лапки"];
 $foodItem = rand(0, 8);
-
+$text = "Выбранный продукт $foods[$foodItem] - это ";
 switch ($foodItem) {
     case 0:
     case 2:
     case 5:
         $foodKind = "фрукт";
-        echo "Выбранный продукт $foods[$foodItem] - это $foodKind";
+        echo $text . $foodKind;
         break;
     case 1:
     case 6:
         $foodKind = "ягода";
-        echo "Выбранный продукт $foods[$foodItem] - это $foodKind";
+        echo $text . $foodKind;
         break;
     case 3:
     case 4:
     case 7:
         $foodKind = "овощ";
-        echo "Выбранный продукт $foods[$foodItem] - это $foodKind";
+        echo $text . $foodKind;
         break;
-    case 8:
+    default:
         $foodKind = "что-то не вегетарианское";
-        echo "Выбранный продукт $foods[$foodItem] - это $foodKind";
-        break;
+        echo $text . $foodKind;
 }
 
