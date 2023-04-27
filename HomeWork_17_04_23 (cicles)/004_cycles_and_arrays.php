@@ -5,23 +5,24 @@
 // 1. Создайте массив скучных игрушек - $boringToys. Создайте в нем случайное количество элементов от 1 до 10, где каждый элемент этого массива это ассоциативный массив с двумя полями:
 // - Название игрушки: в виде "Игрушка 1"
 // - Цена игрушки: случайное число от 100 до 1000
-$boringToys = [];
 
-for ($i = 0; $i < rand(1, 10); $i++) {
+$boringToys = [];
+$random = rand(1, 11);
+for ($i = 1; $i < $random; $i++) {
     $boringToys[] = [
         "toysName" => "Игрушка " . $i,
         "toysPrice" => rand(100, 1000)
     ];
 }
 
-var_dump($boringToys);
+print_r($boringToys);
 
 // Дан массив $cars. Состоящий из трех машин со следующими данными: Мерседес - 10000 руб, BMW - 9999 руб, Автобус - 20000 руб.
 $cars = [
     [
         'name' => 'Мерседес',
         'price' => 10000,
-        'colors' => [],
+        'colors' => []
     ],
     [
         'name' => 'BMW',
@@ -34,7 +35,6 @@ $cars = [
         'colors' => []
     ],
 ];
-
 
 // 2. Посчитайте и выведите стоимость всех машин
 $allCarsSum = 0;
@@ -52,25 +52,53 @@ echo $allCarsSum;
 // Выведите итоговый массив $cars c помощью функции var_dump и убедитесь в его правильности.
 $colors = ['Черный', 'Белый', 'Золотой', 'Зеленый', 'Красный', 'Синий', 'Оранжевый', 'Баклажановый', 'Четкий'];
 
-for ($i = 0; $i < 9; $i++) {
-    if ($i < 3) {
-        $cars[0]['colors'][] = [
-            "carColor" => $colors[rand(0, 8)],
-            "colorPrice" => rand(0, 100)
-        ];
-    } elseif ($i >= 3 && $i < 6) {
-        $cars[1]['colors'][] = [
-            "carColor" => $colors[rand(0, 8)],
-            "colorPrice" => rand(0, 100)
-        ];
-    } else {
-        $cars[2]['colors'][] = [
+foreach ($cars as $key => $val) {
+    for ($i = 0; $i < 3; $i++) {
+        $cars[$key]['colors'][] = [
             "carColor" => $colors[rand(0, 8)],
             "colorPrice" => rand(0, 100)
         ];
     }
 }
-var_dump($cars);
+
+print_r($cars);
+
+// Вариант 2
+
+//$i = 0;
+//foreach ($cars as $val) {
+//    while (count($cars[$i]['colors']) < 3) {
+//        $cars[$i]['colors'][] = [
+//            "carColor" => $colors[rand(0, 8)],
+//            "colorPrice" => rand(0, 100)
+//        ];
+//    }
+//    $i++;
+//}
+//
+//print_r($cars);
+
+// Вариант 3
+
+//for ($i = 0; $i < 9; $i++) {
+//    if ($i < 3) {
+//        $cars[0]['colors'][] = [
+//            "carColor" => $colors[rand(0, 8)],
+//            "colorPrice" => rand(0, 100)
+//        ];
+//    } elseif ($i >= 3 && $i < 6) {
+//        $cars[1]['colors'][] = [
+//            "carColor" => $colors[rand(0, 8)],
+//            "colorPrice" => rand(0, 100)
+//        ];
+//    } else {
+//        $cars[2]['colors'][] = [
+//            "carColor" => $colors[rand(0, 8)],
+//            "colorPrice" => rand(0, 100)
+//        ];
+//    }
+//}
+//print_r($cars);
 
 
 // 4. Каталог автомобилей.
