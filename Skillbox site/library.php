@@ -74,27 +74,25 @@ $red = (bool)rand(0, 1);
 ?>
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title><?php echo $title ?></title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-<h1 <?php if ($red) {
-    echo "class=\"red\"";
-} ?>><?php echo $title ?></h1>
-<div>Авторов на портале: <?php echo count($library['authors']) ?></div>
-<!-- Выведите все книги -->
-<p><?php
-    foreach ($library['books'] as $val) {
-        $emailAuthor = $val['author'];
-        $bookTitle = $val['title'];
-        $authorName = $library['authors'][$emailAuthor]['name'];
-        $authorBirthYear = $library['authors'][$emailAuthor]['birthYear'];
-        $authorEmail = $val['author'];
-        echo "<p class='tr, books'>Книга <span class='bookTitle'>\"$bookTitle\"</span> , её написал $authorName $authorBirthYear года рождения (<a href='#'>$authorEmail</a>>).</p>";
-    }
-    ?></p>
+    <head>
+        <meta charset="UTF-8">
+        <title><?php echo $title?></title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <h1 <?php echo $red ? 'class="red"' : null?>><?php echo $title ?></h1>
 
-</body>
+        <div>Авторов на портале: <?php echo count($library['authors']) ?></div>
+        <!-- Выведите все книги -->
+        <p><?php
+            foreach ($library['books'] as $book) {
+                echo
+                    sprintf(
+                            '<p class="books">Книга <span class="bookTitle">"%s"</span>, её написал %s %s года рождения(<a href="#">%s</a>).</p>',
+                        $book['title'], $book['author'], $library['authors'][$book['author']]['birthYear'], $book['author']
+                    );
+            }
+            ?>
+        </p>
+    </body>
 </html>
