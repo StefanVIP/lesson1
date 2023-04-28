@@ -88,7 +88,7 @@ $red = (bool)rand(0, 1);
             foreach ($library['books'] as $book) {
                 echo
                     sprintf(
-                            '<p class="books">Книга <span class="bookTitle">"%s"</span>, её написал %s %s года рождения(<a href="#">%s</a>).</p>',
+                            '<p class="books">Книга <span class="bookTitle">"%s"</span>, её написал %s %d года рождения(<a href="#">%s</a>).</p>',
                         $book['title'], $book['author'], $library['authors'][$book['author']]['birthYear'], $book['author']
                     );
             }
