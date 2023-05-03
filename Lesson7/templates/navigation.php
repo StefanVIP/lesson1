@@ -23,7 +23,7 @@ $menu = [
         <div class="flex w-full md:w-1/2 justify-center md:justify-start text-white font-extrabold">
             <?php
             // Подключите здесь название сайта
-            include $_SERVER['DOCUMENT_ROOT'] . '/HomeWork7 Site/templates/site_name.php';
+            include $_SERVER['DOCUMENT_ROOT'] . '/Lesson7/templates/site_name.php';
             ?>
         </div>
         <div class="flex w-full pt-2 md:pt-0 content-center justify-between md:w-1/2 md:justify-end">

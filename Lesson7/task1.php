@@ -1,6 +1,6 @@
 <?php
 // Подключите ядро проекта
-require_once $_SERVER['DOCUMENT_ROOT'] . '/HomeWork7 Site/app/core.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Lesson7/app/core.php';
 ?>
 <!doctype html>
 <html>
@@ -14,14 +14,14 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/HomeWork7 Site/app/core.php';
 
 <?php
 //  Подключите здесь блок с навигацией
-include $_SERVER['DOCUMENT_ROOT'] . '/HomeWork7 Site/templates/navigation.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/Lesson7/templates/navigation.php';
 ?>
 
 <div class="container shadow-lg mx-auto bg-white mt-24 md:mt-14 h-screen p-10">
 
 <?php 
 // Разместите здесь решение задачи
-include $_SERVER['DOCUMENT_ROOT'] . '/HomeWork7 Site/templates/task_1_content.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/Lesson7/templates/task_1_content.php';
 ?>
 
 </div>
