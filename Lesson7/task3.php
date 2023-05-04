@@ -1,6 +1,7 @@
 <?php
 // Подключите ядро проекта
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Lesson7/app/core.php';
+error_reporting(16);
 ?>
 <!doctype html>
 <html>
@@ -14,7 +15,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/Lesson7/app/core.php';
 
 <?php
 //  Подключите здесь блок с навигацией
-include $_SERVER['DOCUMENT_ROOT'] . '/Lesson7/templates/navigation.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Lesson7/templates/navigation.php';
 ?>
 
 <div class="container shadow-lg mx-auto bg-white mt-24 md:mt-14 h-screen p-10">
