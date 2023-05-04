@@ -2,16 +2,20 @@ body {
     margin-left: 40px;
     margin-right: 40px;
 }
+
 .red {
     color: red;
 }
+
 .bookTitle {
     font-size: 16px;
     font-weight: bold;
 }
-.tr:nth-child(even) {
+
+p:nth-child(even) {
     background: silver;
 }
+
 .books {
     margin-top: 20px;
     margin-bottom: 20px;
