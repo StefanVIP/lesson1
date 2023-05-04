@@ -16,8 +16,7 @@ echo $line;
 echo "\n";
 
 // 3. Посчитайте и выведите длину строки переменной $line
-$length = 0;
-echo "Длинна строки равна " . strlen($length);
+echo "Длинна строки равна " . strlen($line);
 echo "\n";
 
 // 4. Найдите на какой позиции находится запятая в строке $line и выведите это значение
@@ -27,7 +26,7 @@ echo "Запятая находится на позиции $position";
 echo "\n";
 
 // 5. Вырежьте из строки $line подстроку после запятой до предпоследнего символа с конца
-$cut = (substr("$line", $position, -2));
+$cut = (substr($line, $position, -2));
 $resultLine = str_replace($cut, "", "$line");
 echo $resultLine;
 
