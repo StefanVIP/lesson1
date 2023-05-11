@@ -26,5 +26,3 @@ echo "Минимальное значение " . $min . " находится н
 //}
 //print_r($values);
 //echo "Минимальное значение " . min($values) . " находится на позиции " . array_search(min($values), $values);
-
-?>

@@ -18,12 +18,10 @@ for ($i = 1; $i < 11; $i++) {
 }
 
 // Where is the car and what it's speed?
-foreach ($cars as $key => $value) {
-    if (($value >= ($city1 - $city1Radius) && $value <= ($city1 + $city1Radius)) || ($value >= ($city2 - $city2Radius) && $value <= ($city2 + $city2Radius))) {
-        echo "$key едет по городу на $value км со скоростью не более $inCitySpeed км/ч" . "\n";
+foreach ($cars as $carKey => $carPosition) {
+    if (($carPosition >= ($city1 - $city1Radius) && $carPosition <= ($city1 + $city1Radius)) || ($carPosition >= ($city2 - $city2Radius) && $carPosition <= ($city2 + $city2Radius))) {
+        echo "$carKey едет по городу на $carPosition км со скоростью не более $inCitySpeed км/ч" . "\n";
     } else {
-        echo "$key едет за городом на $value км со скоростью не более $outCitySpeed км/ч" . "\n";
+        echo "$carKey едет за городом на $carPosition км со скоростью не более $outCitySpeed км/ч" . "\n";
     }
 }
-
-?>

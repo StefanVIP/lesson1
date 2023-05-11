@@ -19,5 +19,3 @@ print_r($result);
 // $line = 'Hello';
 // $letters = str_split($line);
 // print_r(array_count_values($letters));
-
-?>

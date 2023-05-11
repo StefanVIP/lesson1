@@ -16,5 +16,3 @@ foreach ($numbers as $key => $value) {
 
 print_r($numbers);
 echo "Сумма значений массива, стоящих под нечётным индексом, равна $sum";
-
-?>
