@@ -5,7 +5,7 @@ $studentsCount = rand(1, 1000000);
 switch ($studentsCount) {
     case $studentsCount % 10 == 0:
     case $studentsCount % 10 >= 5 && $studentsCount % 10 <= 9:
-    case $studentsCount >= 5 && $studentsCount <= 9:
+    case $studentsCount >= 11 && $studentsCount <= 19:
         echo "$studentsCount студентов";
         break;
     case $studentsCount % 10 >= 2 && $studentsCount % 10 <= 4:

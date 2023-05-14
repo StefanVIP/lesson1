@@ -2,7 +2,9 @@
 
 $numbers = [];
 // Create array with random values
-for ($i = 0; $i < rand(3, 20); $i++) {
+$rand = rand(3, 20);
+
+for ($i = 0; $i < $rand; $i++) {
     $numbers[$i] = rand(0, 10);
 }
 
