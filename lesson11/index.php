@@ -1,7 +1,7 @@
 <?php
-include __DIR__ . '/data/users.php';
-include __DIR__ . '/data/passwords.php';
-include __DIR__ . '/data/core.php';
+require __DIR__ . '/data/users.php';
+require __DIR__ . '/data/passwords.php';
+require __DIR__ . '/data/core.php';
 ?>
 
 <!DOCTYPE html>
@@ -22,14 +22,18 @@ include __DIR__ . '/data/core.php';
 
 <div class="clear">
     <ul class="main-menu">
-        <li><a href="#">Главная</a></li>
+        <li><a href="index.php">Главная</a></li>
         <li><a href="#">О нас</a></li>
         <li><a href="#">Контакты</a></li>
         <li><a href="#">Новости</a></li>
         <li><a href="#">Каталог</a></li>
-        <li class="project-folders-v-active" <?= ($_GET['login'] == 'yes' || $error || $empty || $success) ? 'hidden' : '' ?>>
+        <li class="project-folders-v-active" <?= (isset($_GET['login']) && $_GET['login'] == 'yes' || isset($authorized) && $authorized) ? 'hidden' : '' ?>>
             <a
                 href="?login=yes">Авторизация</a>
+        </li>
+        <li class="project-folders-v-active" <?= isset($authorized) && $authorized ? '' : 'hidden' ?>>
+            <a
+                href="?login=yes">Выйти</a>
         </li>
     </ul>
 </div>
@@ -37,15 +41,15 @@ include __DIR__ . '/data/core.php';
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
         <td class="left-collum-index">
-
+            <?php if ($authorized) {
+                (include __DIR__ . '/include/success_message.php');
+            } ?>
             <h1>Возможности проекта —</h1>
             <p>Вести свои личные списки, например покупки в магазине, цели, задачи и многое другое. Делится списками с
                 друзьями и просматривать списки друзей.</p>
 
-
         </td>
-        <?php include __DIR__ . '/include/success_message.php' ?>
-        <td class="right-collum-index"<?= ($_GET['login'] == 'yes' || $error || $empty) ? '' : 'hidden' ?>>
+        <td class="right-collum-index"<?= (isset($_GET['login']) && $_GET['login'] == 'yes' && isset($authorized) && !$authorized) || isset($empty) && $empty ? '' : 'hidden' ?>>
 
             <div class="project-folders-menu">
                 <ul class="project-folders-v">
@@ -57,7 +61,7 @@ include __DIR__ . '/data/core.php';
             </div>
 
             <div class="index-auth">
-                <form action="index.php" method="post">
+                <form action="index.php?login=yes" method="post">
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td class="iat">
@@ -71,8 +75,12 @@ include __DIR__ . '/data/core.php';
                                 <label for="password_id">Ваш пароль:</label>
                                 <input id="password_id" size="30" name="password" type="password"
                                        value="<?= empty($_POST['password']) ? "" : $_POST['password'] ?>">
-                                <?php include __DIR__ . '/include/empty_message.php' ?>
-                                <?php include __DIR__ . '/include/error_message.php' ?>
+                                <?php if ($empty) {
+                                    (include __DIR__ . '/include/empty_message.php');
+                                } ?>
+                                <?php if (!empty($_POST['login']) && !empty($_POST['password']) && !$authorized) {
+                                    (include __DIR__ . '/include/error_message.php');
+                                } ?>
                             </td>
                         </tr>
                         <tr>
@@ -88,7 +96,7 @@ include __DIR__ . '/data/core.php';
 
 <div class="clearfix">
     <ul class="main-menu bottom">
-        <li><a href="#">Главная</a></li>
+        <li><a href="index.php">Главная</a></li>
         <li><a href="#">О нас</a></li>
         <li><a href="#">Контакты</a></li>
         <li><a href="#">Новости</a></li>

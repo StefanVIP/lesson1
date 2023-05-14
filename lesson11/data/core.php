@@ -1,22 +1,18 @@
 <?php
 
 $empty = false;
-$success = false;
-$error = false;
+$authorized = false;
 
-function authorization($login, $password, $logins, $passwords)
+function authorization($login, $password)
 {
-    return $passwords[$logins[array_search($login, array_column($logins, 'login'))]['passwordId']] === $password;
+    global $logins, $passwords;
+    return $passwords[array_flip(array_column($logins, 'login'))[$login]] === $password;
 }
 
 if (!empty ($_POST)) {
-    if (empty ($_POST['login']) || empty ($_POST['password'])) {
-        $empty = true;
-    } else {
-        if (authorization($_POST['login'], $_POST['password'], $logins, $passwords)) {
-            $success = true;
-        } else {
-            $error = true;
-        }
+    $empty = empty($_POST['login']) || empty($_POST['password']);
+
+    if (!$empty) {
+        $authorized = authorization($_POST['login'], $_POST['password'], $logins, $passwords);
     }
 }
