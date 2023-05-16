@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 $empty = false;
 $authorized = false;
 
 function authorization($login, $password)
 {
     global $logins, $passwords;
-    return $passwords[array_flip(array_column($logins, 'login'))[$login]] === $password;
+    $prepared = array_flip(array_column($logins, 'login'));
+    return isset($logins) && $passwords[$prepared[$login]] === $password;
 }
 
 if (!empty ($_POST)) {

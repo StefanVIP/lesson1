@@ -1,7 +1,7 @@
 <?php
-require __DIR__ . '/data/users.php';
-require __DIR__ . '/data/passwords.php';
-require __DIR__ . '/data/core.php';
+require_once __DIR__ . '/data/users.php';
+require_once __DIR__ . '/data/passwords.php';
+require_once __DIR__ . '/data/core.php';
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +49,7 @@ require __DIR__ . '/data/core.php';
                 друзьями и просматривать списки друзей.</p>
 
         </td>
-        <td class="right-collum-index"<?= (isset($_GET['login']) && $_GET['login'] == 'yes' && isset($authorized) && !$authorized) || isset($empty) && $empty ? '' : 'hidden' ?>>
+        <td class="right-collum-index"<?= (isset($_GET['login']) && $_GET['login'] == 'yes' && empty($authorized)) ? '' : 'hidden' ?>>
 
             <div class="project-folders-menu">
                 <ul class="project-folders-v">
