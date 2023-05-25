@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Lesson13/templates/header.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/header.php';
 ?>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -59,5 +59,5 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/Lesson13/templates/header.php';
 </table>
 
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Lesson13/templates/footer.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/footer.php';
 ?>

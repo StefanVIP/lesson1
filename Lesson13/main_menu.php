@@ -2,32 +2,32 @@
 $mainMenu = [
     [
         'title' => 'Главная',
-        'path' => '/lesson1/Lesson13/index.php',
+        'path' => '/',
         'sort' => 1,
     ],
     [
         'title' => 'О нас',
-        'path' => '/lesson1/Lesson13/route/about.php',
+        'path' => '/route/about/',
         'sort' => 6,
     ],
     [
         'title' => 'Контакты',
-        'path' => '/lesson1/Lesson13/route/contacts.php',
+        'path' => '/route/contacts/',
         'sort' => 5,
     ],
     [
         'title' => 'Новости',
-        'path' => '/lesson1/Lesson13/route/news.php',
+        'path' => '/route/news/',
         'sort' => 4,
     ],
     [
         'title' => 'Каталог всякой всячины',
-        'path' => '/lesson1/Lesson13/route/catalog.php',
+        'path' => '/route/catalog/',
         'sort' => 2,
     ],
     [
         'title' => 'Списки',
-        'path' => '/lesson1/Lesson13/route/lists.php',
+        'path' => '/route/lists/',
         'sort' => 3,
     ],
 ];

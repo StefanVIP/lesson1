@@ -1,11 +1,11 @@
 <?php
 // declare(strict_types=1);
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Lesson13/data/users.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Lesson13/data/passwords.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Lesson13/src/arraysort.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Lesson13/src/cutstring.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Lesson13/main_menu.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Lesson13/src/headline.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/data/users.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/data/passwords.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/src/arraysort.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/src/cutstring.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/main_menu.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/src/headline.php';
 
 $empty = false;
 $authorized = false;
