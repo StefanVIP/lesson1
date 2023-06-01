@@ -1,51 +1,45 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/src/checkuploadedfiles.php';
 $imgDir = $_SERVER['DOCUMENT_ROOT'] . '/route/gallery/upload/';
-
-$errors = [
-    'Нужно выбрать хотя бы один файл',
-    'Можно добавить не более 5 файлов одновременно',
-    'Произошла ошибка загрузки файла: ',
-    'Файл не должен превышать 5 Мб: ',
-    'Неверный тип файла: '
-];
 
 $error = "";
 $ok = "";
-$fileMaxSize = 2097152;
+const FILE_MAX_SIZE = 2 * 1024 * 1024;
+$filesData = [];
 
-//Checking loaded files
-if (isset ($_POST['upload_file'])) {
-    if ($_FILES['newfile']['error'][0] !== 4) {    // Check for "no files" error
-        if (count($_FILES['newfile']['error']) > 5) {    // Checking for the number of added files
-            $error = $errors[1];    // Error: "Можно добавить не более 5 файлов одновременно"
-        } else {
-            for ($i = 0; $i < count($_FILES['newfile']['error']); $i++) {    // Looping through the array with uploaded files
-                if (!empty($_FILES['newfile']['error'][$i])) {    // Check for errors when uploading a file
-                    $error = $errors[2] . $_FILES['newfile']['name'][$i];    // Error: "Произошла ошибка загрузки файла"
-                } else {
-                    if ($_FILES['newfile']['size'][$i] < $fileMaxSize) {    // File size check
-                        if (explode('/', $_FILES['newfile']['type'][$i])[0] == 'image') {    // Checking the file type
-                            $new_string = preg_replace('/[^ \w-]/', '_', $_FILES['newfile']['name'][$i]);    // Replacing characters in the title
-                            move_uploaded_file($_FILES['newfile']['tmp_name'][$i], $imgDir . $new_string);    // All checks passed. Saving the file
-                            $ok = "Загрузка выполнена успешно!";
-                        } else {
-                            $error = $errors[4] . $_FILES['newfile']['name'][$i]; // Error: "Неверный тип файла"
-                        }
-                    } else {
-                        $error = $errors[3] . $_FILES['newfile']['name'][$i]; // Error: "Файл не должен превышать 5 Мб"
-                    }
-                }
-            }
+// Create array of uploaded files
+if (isset($_POST['upload_file'])) {
+    foreach ($_FILES as $fields) {
+        foreach ($fields['name'] as $index => $file_name) {
+            $filesData[] = array(
+                'name' => $fields['name'][$index],
+                'type' => $fields['type'][$index],
+                'tmp_name' => $fields['tmp_name'][$index],
+                'error' => $fields['error'][$index],
+                'size' => $fields['size'][$index]);
         }
-    } else {
-        $error = $errors[0];
-
     }
-
 }
+
+try {
+    checkUploadedFiles($filesData);
+    foreach ($filesData as $fileData) {
+        $new_string = preg_replace('/[^ \w-]/', '_', $fileData['name']);    // Replacing characters in the title
+        move_uploaded_file($fileData['tmp_name'], $imgDir . $new_string);    // All checks passed. Saving the file
+    }
+    // Correct download message depending on the number of files
+    if (count($filesData) > 1) {
+        $ok = 'Изображения загружены успешно!';
+    } elseif (count($filesData) == 1) {
+        $ok = 'Изображение загружено успешно!';
+    }
+} catch (Exception $e) {
+    $error = 'Ошибка: ' . $e->getMessage();
+}
+
 // Delete pointed images
-if (isset($_POST['delete_file'])) {
-    $delFiles = $_POST;
+if (isset($_POST['delete_file']) && $_POST['images']) {
+    $delFiles = $_POST['images'];
 
     if (!empty($delFiles)) {
         foreach ($delFiles as $file) {
@@ -63,6 +57,11 @@ if (isset($_POST['delete_files'])) {
     }
 }
 
+/**
+ * Function for showing gallery
+ * @param $imgDir
+ * @return void
+ */
 function showGallary($imgDir)
 {
     if (!empty (array_diff(scandir($imgDir), array('..', '.')))) {
@@ -71,7 +70,7 @@ function showGallary($imgDir)
         foreach ($imgNames as $key => $name) {
             echo '<div class="image"><img src="/route/gallery/upload/' . $name . '"><span>' . $name . '</span>';
             echo "Загружен: " . date("d/m/y", filectime("$imgDir" . "$name"));
-            echo sprintf('<input form="files_form" type="checkbox" name="%s" value="%s">Удалить</div>', $key, $name);
+            echo sprintf('<input form="files_form" type="checkbox" name="images[]" value="%s">Удалить</div>', $name);
         }
     }
 }

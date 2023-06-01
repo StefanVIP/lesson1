@@ -9,7 +9,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/src/galleryfunction.php';
                 <p></p>
                 <h1><?php
                     // There is also a function makeHeadline in headline.php , but i think this method is better
-                    echo array_column($mainMenu, 'title', 'path')[$_SERVER["REQUEST_URI"]]; ?></h1>
+                    echo array_column($mainMenu, 'title', 'path')['/route/gallery/']; ?></h1>
                 <h2>Добавление изображений в галерею</h2>
             </div>
             <td class="catalog-collum-index">

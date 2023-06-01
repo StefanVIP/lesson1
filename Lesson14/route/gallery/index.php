@@ -13,7 +13,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/src/galleryfunction.php';
                 <a class="link" href="/route/gallery/create/">Добавить изображения</a>
             </div>
             <td class="catalog-collum-index">
-                <form id="files_form" action="index.php" method="post" enctype="multipart/form-data">
+                <form id="files_form" action="/route/gallery/" method="post" enctype="multipart/form-data">
                     <p>Удаление изображений</p>
                     <p>
                         <input type="checkbox" name="delete_files" value="all">Удалить всё</div>
