@@ -1,49 +1,99 @@
 <?php
 $imgDir = $_SERVER['DOCUMENT_ROOT'] . '/route/gallery/upload/';
 
-$errors = [
-    'Нужно выбрать хотя бы один файл',
-    'Можно добавить не более 5 файлов одновременно',
-    'Произошла ошибка загрузки файла: ',
-    'Файл не должен превышать 5 Мб: ',
-    'Неверный тип файла: '
-];
+define('FILE_MAX_SIZE', 2097152);
 
-$error = "";
-$ok = "";
-$fileMaxSize = 2097152;
+function checkUploadedFiles(array $filesData): void
+{
+    checkNumberOfFiles($filesData);
 
-//Checking loaded files
-if (isset ($_POST['upload_file'])) {
-    if ($_FILES['newfile']['error'][0] !== 4) {    // Check for "no files" error
-        if (count($_FILES['newfile']['error']) > 5) {    // Checking for the number of added files
-            $error = $errors[1];    // Error: "Можно добавить не более 5 файлов одновременно"
-        } else {
-            for ($i = 0; $i < count($_FILES['newfile']['error']); $i++) {    // Looping through the array with uploaded files
-                if (!empty($_FILES['newfile']['error'][$i])) {    // Check for errors when uploading a file
-                    $error = $errors[2] . $_FILES['newfile']['name'][$i];    // Error: "Произошла ошибка загрузки файла"
-                } else {
-                    if ($_FILES['newfile']['size'][$i] < $fileMaxSize) {    // File size check
-                        if (explode('/', $_FILES['newfile']['type'][$i])[0] == 'image') {    // Checking the file type
-                            $new_string = preg_replace('/[^ \w-]/', '_', $_FILES['newfile']['name'][$i]);    // Replacing characters in the title
-                            move_uploaded_file($_FILES['newfile']['tmp_name'][$i], $imgDir . $new_string);    // All checks passed. Saving the file
-                            $ok = "Загрузка выполнена успешно!";
-                        } else {
-                            $error = $errors[4] . $_FILES['newfile']['name'][$i]; // Error: "Неверный тип файла"
-                        }
-                    } else {
-                        $error = $errors[3] . $_FILES['newfile']['name'][$i]; // Error: "Файл не должен превышать 5 Мб"
-                    }
-                }
-            }
+    foreach ($filesData as $fileData) {
+        checkFile($fileData);
+    }
+}
+
+function checkFile(array $fileData): void
+{
+    checkFileUploaded($fileData);
+
+    checkErrorsWhileUpload($fileData);
+
+    checkFileSize($fileData);
+
+    checkFileType($fileData);
+}
+
+function checkNumberOfFiles($filesData, $limit = 5): void
+{
+    if (count($filesData) > 5) {
+        throw new Exception('Можно добавить не более 5 файлов одновременно');
+    }
+}
+
+function checkFileUploaded(array $fileData): void
+{
+    if ($fileData['error'] === 4) {
+        throw new Exception('Нужно выбрать хотя бы один файл');
+    }
+}
+
+function checkErrorsWhileUpload(array $fileData): void
+{
+    if ($fileData['error']) {
+        throw new Exception('Произошла ошибка загрузки файла: ' . $fileData['name']);
+    }
+}
+
+function checkFileSize(array $fileData, int $fileMaxSize = FILE_MAX_SIZE): void
+{
+    if ($fileData['size'] > $fileMaxSize) {
+        throw new Exception('Файл не должен превышать 2 Мб: ' . $fileData['name']);
+    }
+}
+
+function checkFileType(array $fileData, $fileType = 'image'): void
+{
+    if (explode('/', $fileData['type'])[0] !== $fileType) {
+        throw new Exception('Неверный тип файла: ' . $fileData['name']);
+    }
+}
+
+function getFiles(): array
+{
+    $files = [];
+    foreach ($_FILES['newfile']['name'] as $key => $file) {
+        $files[] = array_combine(array_keys($_FILES['newfile']), array_column($_FILES['newfile'], $key));
+    }
+    return $files;
+}
+
+function saveFile(array $fileData, $imgDir): void
+{
+    $new_string = preg_replace('/[^ \w-]/', '_', $fileData['name']); // Replacing characters in the title
+    move_uploaded_file($fileData['tmp_name'], $imgDir . $new_string); // All checks passed. Saving the file
+}
+
+if (isset($_POST['upload_file'])) {
+
+    $files = getFiles();
+    var_dump($files);
+    exit;
+    try {
+        checkUploadedFiles($files);
+
+        foreach ($files as $file) {
+            saveFile($file, $imgDir);
         }
-    } else {
-        $error = $errors[0];
 
+    } catch (Exception $exception) {
+        $error = $exception->getMessage();
     }
 
+    $ok = $error ? '' : "Загрузка выполнена успешно!";
 }
+
 // Delete pointed images
+
 if (isset($_POST['delete_file'])) {
     $delFiles = $_POST;
 
@@ -65,7 +115,7 @@ if (isset($_POST['delete_files'])) {
 
 function showGallary($imgDir)
 {
-    if (!empty (array_diff(scandir($imgDir), array('..', '.')))) {
+    if (!empty(array_diff(scandir($imgDir), array('..', '.')))) {
         $imgNames = array_diff(scandir($imgDir), array('..', '.'));
 
         foreach ($imgNames as $key => $name) {
