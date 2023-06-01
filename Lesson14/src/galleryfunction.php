@@ -76,8 +76,7 @@ function saveFile(array $fileData, $imgDir): void
 if (isset($_POST['upload_file'])) {
 
     $files = getFiles();
-    var_dump($files);
-    exit;
+
     try {
         checkUploadedFiles($files);
 
