@@ -5,29 +5,19 @@ $imgDir = $_SERVER['DOCUMENT_ROOT'] . '/route/gallery/upload/';
 const FILE_MAX_SIZE = 2 * 1024 * 1024;
 $filesData = [];
 
-// Create array of uploaded files
 if (isset($_POST['upload_file'])) {
-    foreach ($_FILES as $fields) {
-        foreach ($fields['name'] as $index => $file_name) {
-            $filesData[] = array(
-                'name' => $fields['name'][$index],
-                'type' => $fields['type'][$index],
-                'tmp_name' => $fields['tmp_name'][$index],
-                'error' => $fields['error'][$index],
-                'size' => $fields['size'][$index]);
-        }
-    }
-}
 
-if (isset($_POST['upload_file'])) {
+    $filesData = getFiles();
+
     try {
         checkUploadedFiles($filesData);
-        foreach ($filesData as $fileData) {
-            $new_string = preg_replace('/[^ \w-]/', '_', $fileData['name']);    // Replacing characters in the title
-            move_uploaded_file($fileData['tmp_name'], $imgDir . $new_string);    // All checks passed. Saving the file
-        }
+
         // Correct download message depending on the number of files
-        count($filesData) > 1 ? $ok = 'Изображения загружены успешно!' : $ok = 'Изображение загружено успешно!';
+        $ok = count($filesData) > 1 ? 'Изображения загружены успешно!' : 'Изображение загружено успешно!';
+
+        foreach ($filesData as $fileData) {
+            saveFile($fileData, $imgDir);
+        }
 
     } catch (Exception $e) {
         $error = 'Ошибка: ' . $e->getMessage();
