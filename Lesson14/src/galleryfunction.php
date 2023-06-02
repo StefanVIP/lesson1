@@ -2,8 +2,6 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/src/checkuploadedfiles.php';
 $imgDir = $_SERVER['DOCUMENT_ROOT'] . '/route/gallery/upload/';
 
-$error = "";
-$ok = "";
 const FILE_MAX_SIZE = 2 * 1024 * 1024;
 $filesData = [];
 
@@ -21,24 +19,23 @@ if (isset($_POST['upload_file'])) {
     }
 }
 
-try {
-    checkUploadedFiles($filesData);
-    foreach ($filesData as $fileData) {
-        $new_string = preg_replace('/[^ \w-]/', '_', $fileData['name']);    // Replacing characters in the title
-        move_uploaded_file($fileData['tmp_name'], $imgDir . $new_string);    // All checks passed. Saving the file
+if (isset($_POST['upload_file'])) {
+    try {
+        checkUploadedFiles($filesData);
+        foreach ($filesData as $fileData) {
+            $new_string = preg_replace('/[^ \w-]/', '_', $fileData['name']);    // Replacing characters in the title
+            move_uploaded_file($fileData['tmp_name'], $imgDir . $new_string);    // All checks passed. Saving the file
+        }
+        // Correct download message depending on the number of files
+        count($filesData) > 1 ? $ok = 'Изображения загружены успешно!' : $ok = 'Изображение загружено успешно!';
+
+    } catch (Exception $e) {
+        $error = 'Ошибка: ' . $e->getMessage();
     }
-    // Correct download message depending on the number of files
-    if (count($filesData) > 1) {
-        $ok = 'Изображения загружены успешно!';
-    } elseif (count($filesData) == 1) {
-        $ok = 'Изображение загружено успешно!';
-    }
-} catch (Exception $e) {
-    $error = 'Ошибка: ' . $e->getMessage();
 }
 
 // Delete pointed images
-if (isset($_POST['delete_file']) && $_POST['images']) {
+if (isset($_POST['delete_file']) && isset($_POST['images'])) {
     $delFiles = $_POST['images'];
 
     if (!empty($delFiles)) {
