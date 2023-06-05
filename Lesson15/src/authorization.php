@@ -3,7 +3,7 @@
 $empty = false;
 $cookieLogin = '';
 
-function authorization($login, $password)
+function authorization(string $login, string $password): bool
 {
     global $logins, $passwords;
     $prepared = array_flip(array_column($logins, 'login'));
@@ -40,20 +40,20 @@ function isAuthorized()
     }
 }
 
-//Если пользователь авторизован обновляем время действия куки "логин"
+//If the user is logged in, update the "login" cookie expiration time
 if (isset($_COOKIE['login'])) {
-    setcookie('login', $_COOKIE['login'], time() + 60 * 60 * 24 * 31, '/');
+    setcookie('login', $_COOKIE['login'], time() + 60 * 60 * 24 * 30, '/');
     $cookieLogin = $_COOKIE['login'];
 }
 
 function logout()
 {
+    session_unset();
     session_destroy();
     $_SESSION = [];
-    // setcookie("login", "", time() - 1, '/', 'task.manager');
 }
 
-// Обработка ссылки выход
+// Processing logout link
 if (isset($_GET['logout'])) {
     logout();
 }

@@ -9,7 +9,7 @@
 function checkNumberOfFiles(array $filesData, int $limit = 5): void
 {
     if (count($filesData) > $limit) {
-        throw new Exception('Можно добавить не более 5 файлов одновременно');
+        throw new Exception("Можно добавить не более $limit файлов одновременно");
     }
 }
 
@@ -58,7 +58,7 @@ function checkFileSize(array $fileData, int $fileMaxSize = FILE_MAX_SIZE): void
  * @return void
  * @throws Exception
  */
-function checkFileType(array $fileData, string $fileType = 'image')
+function checkFileType(array $fileData, string $fileType = 'image'): void
 {
     if (explode('/', $fileData['type'])[0] !== $fileType) {
         throw new Exception('Неверный тип файла: ' . $fileData['name']);
