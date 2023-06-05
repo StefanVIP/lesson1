@@ -9,7 +9,7 @@
 function checkNumberOfFiles(array $filesData, int $limit = 5): void
 {
     if (count($filesData) > $limit) {
-        throw new Exception('Можно добавить не более 5 файлов одновременно');
+        throw new Exception("Можно добавить не более $limit файлов одновременно");
     }
 }
 
