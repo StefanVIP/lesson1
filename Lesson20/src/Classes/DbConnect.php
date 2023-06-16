@@ -34,14 +34,34 @@ final class DbConnect
 
     public function configure(array $data): void
     {
-        $this->conn = new PDO('mysql:host=' . $data['host'] . ';dbname=' . $data['dbname'], $data['user'], $data['password']);
+        $this->conn = new PDO(
+            sprintf("mysql:host=%s;dbname=%s", $data['host'], $data['dbname']),
+            $data['user'],
+            $data['password']
+        );
     }
 
 }
 
-$dbConfiguration = require_once __DIR__ . '/settings.php';
+$dbConfiguration = require_once __DIR__ . '/../settings.php';
 
 $connect = DbConnect::getInstance();
 $connect->configure($dbConfiguration);
-
-$connect2 = DbConnect::getInstance()->getConnection();
+$connect = $connect->getConnection();
+$stmt = $connect->prepare(<<<SQL
+SELECT *,
+       (SELECT JSON_ARRAYAGG(JSON_OBJECT('name', names.name))
+        FROM (SELECT name
+              FROM u_groups ug
+              WHERE id IN
+                    (SELECT gu.group_id
+                     FROM group_user gu
+                     WHERE gu.user_id = :userId))
+                 as names)
+           as group_data
+FROM users
+where id = :userId;
+SQL
+);
+$stmt->execute(['userId' => 1]);
+var_dump($stmt->fetch(PDO::FETCH_ASSOC));
