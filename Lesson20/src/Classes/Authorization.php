@@ -6,28 +6,21 @@ class Authorization
 
     public function authorize(string $login, string $password): bool
     {
-        $instance = DbConnect::getInstance();
-        $conn = $instance->getConnection();
+        $authorized = false;
+        $conn = DbConnect::getInstance()->getConnection();
+        $user = $this->getUserByLogin($login, $conn);
 
-        $stmt = $conn->prepare('SELECT * FROM users WHERE email = :email');
-        $stmt->execute(['email' => $login]);
-        if (!$stmt->rowCount()) {
-            //  print_r('Пользователь с такими данными не зарегистрирован');
-            die; ///почему?
-        } else {
-
-            $this->user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if (password_verify($password, $this->user['password'])) {
-                $_SESSION['isAuth'] = true;
-                $_SESSION['user'] = $this->user['id'];
-                setcookie('login', $this->user['email'], time() + 60 * 60 * 24 * 30, '/');
-                return true;
-            } else {
-                $_SESSION['isAuth'] = false;
-                return false;
-            }
+        if ($user) {
+            $authorized = password_verify($password, $this->user['password']);
         }
+
+        if ($authorized) {
+            $this->setCookies();
+        }
+
+        $this->setSession($authorized);
+
+        return $authorized;
     }
 
     public function isAuthorized(): bool
@@ -44,5 +37,27 @@ class Authorization
         session_unset();
         session_destroy();
         $_SESSION = [];
+    }
+
+    private function getUserByLogin(string $login, PDO $conn): array
+    {
+        $stmt = $conn->prepare('SELECT * FROM users WHERE email = :email');
+        $stmt->execute(['email' => $login]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    private function setSession(bool $authorized): void
+    {
+        if($authorized) {
+            $_SESSION['isAuth'] = true;
+            $_SESSION['user'] = $this->user['id'];
+        } else {
+            $_SESSION['isAuth'] = false;
+        }
+    }
+
+    private function setCookies()
+    {
+        setcookie('login', $this->user['email'], time() + 60 * 60 * 24 * 30, '/');
     }
 }
