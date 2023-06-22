@@ -9,12 +9,12 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/header.php';
                     // There is also a function makeHeadline in headline.php , but i think this method is better
                     echo array_column($mainMenu, 'title', 'path')[$_SERVER["REQUEST_URI"]]; ?></h1>
                 <h2>Информация о вашем профиле:</h2>
-                <p>ФИО: <?php print_r("{$profile[0][0]['surname']} {$profile[0][0]['first_name']} {$profile[0][0]['middle_name']}"); ?></p>
-                <p>E-mail: <?php print_r("{$profile[0][0]['email']}"); ?></p>
-                <p>Телефон: <?php print_r("{$profile[0][0]['phone_number']}"); ?></p>
+                <p>ФИО: <?php print_r("{$userProfile->getUserSurname()} {$userProfile->getUserName()} {$userProfile->getUserMiddleName()}"); ?></p>
+                <p>E-mail: <?php print_r("{$userProfile->getUserEmail()}"); ?></p>
+                <p>Телефон: <?php print_r("{$userProfile->getUserPhoneNumber()}"); ?></p>
                 <p><b>Зарегестрирован в группах: </b></p>
-                <?php foreach ($profile[0] as $group) {
-                    print_r("<p>{$group['name']} - {$group['discription']};</p>");
+                <?php foreach ($userProfile->getUserGroup() as $group) {
+                    print_r("<p>{$group};</p>");
                 } ?>
             </td>
         </tr>

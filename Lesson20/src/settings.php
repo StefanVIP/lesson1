@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'host' => 'localhost', // Адрес сервера
+    'host' => '127.0.0.1', // Адрес сервера
     'dbname' => 'lessondb', // Название БД
-    'user' => 'root', // Имя пользователя
-    'password' => 'MySQL123', // Пароль пользователя
+    'user' => 'dbuser', // Имя пользователя
+    'password' => 'Password1$', // Пароль пользователя
 ];

@@ -2,7 +2,6 @@
 //ini_set('error_reporting', E_ALL);
 //ini_set('display_errors', 1);
 require_once $_SERVER['DOCUMENT_ROOT'] . '/src/core.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/src/showmenu.php';
 ?>
 
 <!DOCTYPE html>

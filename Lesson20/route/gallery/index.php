@@ -1,6 +1,5 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/header.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/src/galleryfunction.php';
 ?>
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
