@@ -40,4 +40,9 @@ $mainMenu = [
         'path' => '/route/profile/',
         'sort' => 8,
     ],
+    [
+        'title' => 'Сообщения',
+        'path' => '/route/posts/',
+        'sort' => 9,
+    ],
 ];

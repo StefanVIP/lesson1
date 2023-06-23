@@ -39,7 +39,7 @@ function cutString(string $line, int $length = 12, string $appends = '...'): str
  * @param $mainMenu
  * @return void
  */
-function makeHeadline($mainMenu)
+function makeHeadline($mainMenu): string
 {
     foreach ($mainMenu as $value) {
         if ($value['path'] == $_SERVER["REQUEST_URI"]) {
@@ -75,6 +75,7 @@ function showMenu(array $mainMenu, string $style = '', string $sortBy = 'sort', 
 
     return $menuHtml;
 }
+
 // Gallery start
 //Checking loaded files
 /**
@@ -189,56 +190,12 @@ function saveFile(array $fileData, string $imgDir): void
     move_uploaded_file($fileData['tmp_name'], $imgDir . $new_string); // All checks passed. Saving the file
 }
 
-$imgDir = $_SERVER['DOCUMENT_ROOT'] . '/route/gallery/upload/';
-
-const FILE_MAX_SIZE = 2 * 1024 * 1024;
-$filesData = [];
-
-if (isset($_POST['upload_file'])) {
-
-    $filesData = getFiles();
-
-    try {
-        checkUploadedFiles($filesData);
-
-        // Correct download message depending on the number of files
-        $ok = count($filesData) > 1 ? 'Изображения загружены успешно!' : 'Изображение загружено успешно!';
-
-        foreach ($filesData as $fileData) {
-            saveFile($fileData, $imgDir);
-        }
-
-    } catch (Exception $e) {
-        $error = 'Ошибка: ' . $e->getMessage();
-    }
-}
-
-// Delete pointed images
-if (isset($_POST['delete_file']) && isset($_POST['images'])) {
-    $delFiles = $_POST['images'];
-
-    if (!empty($delFiles)) {
-        foreach ($delFiles as $file) {
-            unlink($imgDir . $file);
-        }
-    }
-}
-// Delete all images
-if (isset($_POST['delete_files'])) {
-    $files = glob("$imgDir" . "*"); // get all file names
-    foreach ($files as $file) { // iterate files
-        if (is_file($file)) {
-            unlink($file); // delete file
-        }
-    }
-}
-
 /**
  * Function for showing gallery
  * @param $imgDir
  * @return void
  */
-function showGallary($imgDir)
+function showGallary($imgDir): string
 {
     if (!empty (array_diff(scandir($imgDir), array('..', '.')))) {
         $imgNames = array_diff(scandir($imgDir), array('..', '.'));
@@ -251,37 +208,3 @@ function showGallary($imgDir)
     }
 }
 // Gallery end
-
-// Database Connect
-$dbConfiguration = require_once __DIR__ . '/settings.php';
-
-$connect = DbConnect::getInstance();
-$connect->configure($dbConfiguration);
-$connect = $connect->getConnection();
-
-// Authorization
-$cookieId = '';
-$empty = false;
-
-$userAuth = new Authorization();
-
-if (!empty ($_POST)) {
-    $empty = empty($_POST['login']) || empty($_POST['password']);
-
-    if (!$empty) {
-        $authorized = $userAuth->authorize($_POST['login'], $_POST['password']);
-    }
-}
-
-//If the user is logged in, update the "login" cookie expiration time
-if (isset($_COOKIE['login'])) {
-    setcookie('login', $_COOKIE['login'], time() + 60 * 60 * 24 * 30, '/');
-    $cookieId = $_COOKIE['login'];
-}
-
-// Processing logout link
-if (isset($_GET['logout'])) {
-    $userAuth->logout();
-}
-
-$userProfile = new UserProfile();

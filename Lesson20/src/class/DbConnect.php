@@ -13,7 +13,7 @@ final class DbConnect
     {
     }
 
-    public function __wakeup()
+    public function __wakeup(): string
     {
         throw new Exception("Cannot unserialize singleton");
     }

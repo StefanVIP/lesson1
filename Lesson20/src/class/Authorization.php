@@ -32,7 +32,7 @@ class Authorization
         }
     }
 
-    public function logout()
+    public function logout(): void
     {
         session_unset();
         session_destroy();
@@ -56,7 +56,7 @@ class Authorization
         }
     }
 
-    private function setCookies()
+    private function setCookies() :void
     {
         setcookie('login', $this->user['email'], time() + 60 * 60 * 24 * 30, '/');
     }
