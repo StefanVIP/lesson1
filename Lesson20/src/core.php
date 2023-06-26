@@ -7,10 +7,8 @@ $filesData = [];
 require_once $_SERVER['DOCUMENT_ROOT'] . '/src/config.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/src/class/DbConnect.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/src/class/Authorization.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/src/class/User.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/src/class/UserStorage.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/src/class/UserProfile.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/src/class/MessageStorage.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/src/class/Message.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/src/functions.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/main_menu.php';
 
@@ -85,6 +83,7 @@ if (isset($_GET['logout'])) {
     $userAuth->logout();
 }
 
-$userProfile = new UserProfile();
-$userMessages = new MessageStorage();
-$messages = new Message();
+if (isset($_SESSION['user'])) {
+    $userStorage = new UserStorage($connect);
+    $user = $userStorage->getUserById($_SESSION['user']);
+}
