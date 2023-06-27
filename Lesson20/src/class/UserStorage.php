@@ -13,8 +13,8 @@ class UserStorage
     {
         $stmt = $this->db->prepare(<<<SQL
 SELECT *,
-       (SELECT JSON_ARRAYAGG(JSON_OBJECT('name', names.name, 'discription', discription))
-        FROM (SELECT name, discription
+       (SELECT JSON_ARRAYAGG(JSON_OBJECT('id', id, 'name', names.name, 'discription', discription))
+        FROM (SELECT id, name, discription
               FROM u_groups ug
               WHERE id IN
                     (SELECT gu.group_id
