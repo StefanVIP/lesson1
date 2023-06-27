@@ -11,29 +11,32 @@ class User
     private $userGroup;
     private $userGroupDescription;
     private $userGroupId;
+    private $UserId;
 
-    public function __construct($dbRow)
+    public function __construct($dbRowUser, $dbRowGroup = [])
     {
 
-        $this->userFullName = $dbRow[0]['surname'] . " " . $dbRow[0]['first_name'] . " " . $dbRow[0]['middle_name'];
-        $this->userFirstName = $dbRow[0]['first_name'];
-        $this->userMiddleName = $dbRow[0]['middle_name'];
-        $this->userLastName = $dbRow[0]['surname'];
-        $this->userEmail = $dbRow[0]['email'];
-        $this->userPhoneNumber = $dbRow[0]['phone_number'];
+        $this->userFullName = $dbRowUser['surname'] . " " . $dbRowUser['first_name'] . " " . $dbRowUser['middle_name'];
+        $this->userFirstName = $dbRowUser['first_name'];
+        $this->userMiddleName = $dbRowUser['middle_name'];
+        $this->userLastName = $dbRowUser['surname'];
+        $this->userEmail = $dbRowUser['email'];
+        $this->userPhoneNumber = $dbRowUser['phone_number'];
+        $this->UserId = $dbRowUser['id'];
 
-        foreach ($dbRow as $group) {
-            $this->userGroup[] = $group['name'];
+        if (!empty($dbRowGroup)) {
+            foreach ($dbRowGroup as $group) {
+                $this->userGroup[] = $group['name'];
+            }
+
+            foreach ($dbRowGroup as $desc) {
+                $this->userGroupDescription[] = $desc['discription'];
+            }
+
+            foreach ($dbRowGroup as $id) {
+                $this->userGroupId[] = $id['group_id'];
+            }
         }
-
-        foreach ($dbRow as $desc) {
-            $this->userGroupDescription[] = $desc['discription'];
-        }
-
-        foreach ($dbRow as $id) {
-            $this->userGroupId[] = $id['group_id'];
-        }
-
     }
 
 
@@ -107,6 +110,14 @@ class User
     public function getUserMiddleName(): string
     {
         return $this->userMiddleName;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->UserId;
     }
 
 }
