@@ -9,6 +9,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/src/class/DbConnect.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/src/class/Authorization.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/src/class/User.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/src/class/UserStorage.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/src/class/Message.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/src/class/MessageStorage.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/src/functions.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/main_menu.php';
 
@@ -86,4 +88,16 @@ if (isset($_GET['logout'])) {
 if (isset($_SESSION['user'])) {
     $userStorage = new UserStorage($connect);
     $user = $userStorage->getUserById($_SESSION['user']);
+    $messageStorage = new MessageStorage($connect, $userStorage);
+    $incomingMessages = $messageStorage->getMessagesListByRecipientId($_SESSION['user']);
+    $outgoingMessages = $messageStorage->getMessagesListBySenderId($_SESSION['user']);
+}
+
+if (isset($_POST['submit_message'])) {
+    if (empty($_POST['title']) || empty($_POST['text'])) {
+        $errorEmpty = 'Поля не могут быть пустыми';
+    } else {
+        $result = $messageStorage->addNewMessage($_POST['title'], $_POST['text'], $_SESSION['user'], $_POST['recipient']);
+        $successSend = 'Сообщение отправлено';
+    }
 }

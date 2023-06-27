@@ -3,6 +3,9 @@
 class User
 {
     private $userFullName;
+    private $userFirstName;
+    private $userLastName;
+    private $userMiddleName;
     private $userEmail;
     private $userPhoneNumber;
     private $userGroup;
@@ -13,6 +16,9 @@ class User
     {
 
         $this->userFullName = $dbRow[0]['surname'] . " " . $dbRow[0]['first_name'] . " " . $dbRow[0]['middle_name'];
+        $this->userFirstName = $dbRow[0]['first_name'];
+        $this->userMiddleName = $dbRow[0]['middle_name'];
+        $this->userLastName = $dbRow[0]['surname'];
         $this->userEmail = $dbRow[0]['email'];
         $this->userPhoneNumber = $dbRow[0]['phone_number'];
 
@@ -77,6 +83,30 @@ class User
     public function getUserGroupId(): array
     {
         return $this->userGroupId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserFirstName(): string
+    {
+        return $this->userFirstName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserLastName(): string
+    {
+        return $this->userLastName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserMiddleName(): string
+    {
+        return $this->userMiddleName;
     }
 
 }

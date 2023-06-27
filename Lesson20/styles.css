@@ -268,3 +268,15 @@ a:hover {
     color: green;
     font-weight: bold;
 }
+.table {
+    font-size: 14px;
+    border: 1px;
+    border-color: #333333;
+    border-style: solid;
+}
+.table td {
+    padding: 5px 5px 0px 5px;
+    border: 1px;
+    border-color: #333333;
+    border-style: solid;
+}

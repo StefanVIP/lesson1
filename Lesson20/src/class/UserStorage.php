@@ -20,4 +20,18 @@ SQL
         $dbRow = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return new User($dbRow);
     }
+
+    public function getAllUsers($id): Array
+    {
+        $stmt = $this->db->prepare(<<<SQL
+SELECT id, first_name, middle_name, surname
+FROM users 
+WHERE id != :id;
+SQL
+        );
+        $stmt->execute(['id' => $id]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
