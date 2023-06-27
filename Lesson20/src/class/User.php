@@ -10,7 +10,7 @@ class User
     private array $groups;
     private int $id;
 
-    public function __construct($dbRow)
+    public function __construct(array $dbRow)
     {
         $this->firstName = $dbRow['first_name'];
         $this->middleName = $dbRow['middle_name'];

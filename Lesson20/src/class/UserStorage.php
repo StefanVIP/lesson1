@@ -2,14 +2,14 @@
 
 class UserStorage
 {
-    private $db;
+    private PDO $db;
 
-    public function __construct($db)
+    public function __construct(PDO $db)
     {
         $this->db = $db;
     }
 
-    public function getUserById($id): User
+    public function getUserById(int $id): User
     {
         $stmt = $this->db->prepare(<<<SQL
 SELECT *,
@@ -31,7 +31,7 @@ SQL
         return new User($dbRow);
     }
 
-    public function getAllOtherUsers($id): array
+    public function getAllOtherUsers(int $id): array
     {
         $stmt = $this->db->prepare(<<<SQL
 SELECT *,
