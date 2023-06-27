@@ -1,32 +1,51 @@
 <?php
+
 class UserStorage
 {
     private $db;
+
     public function __construct($db)
     {
         $this->db = $db;
     }
+
     public function getUserById($id): User
     {
         $stmt = $this->db->prepare(<<<SQL
-SELECT users.id, users.email, users.first_name, users.middle_name, users.surname, users.phone_number, u_groups.name, u_groups.discription, group_user.group_id 
-FROM users 
-    LEFT JOIN group_user ON users.id = group_user.user_id 
-    LEFT JOIN u_groups ON group_user.group_id = u_groups.id 
-WHERE users.id = :id;
+SELECT *,
+       (SELECT JSON_ARRAYAGG(JSON_OBJECT('name', names.name, 'discription', discription))
+        FROM (SELECT name, discription
+              FROM u_groups ug
+              WHERE id IN
+                    (SELECT gu.group_id
+                     FROM group_user gu
+                     WHERE gu.user_id = :id))
+                 as names)
+           as group_data
+FROM users
+where id = :id;
 SQL
         );
         $stmt->execute(['id' => $id]);
-        $dbRow = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return new User($dbRow[0], $dbRow);
+        $dbRow = $stmt->fetch(PDO::FETCH_ASSOC);
+        return new User($dbRow);
     }
 
-    public function getAllUsers($id): Array
+    public function getAllOtherUsers($id): array
     {
         $stmt = $this->db->prepare(<<<SQL
-SELECT id, first_name, middle_name, surname, email, phone_number
-FROM users 
-WHERE id != :id;
+SELECT *,
+       (SELECT JSON_ARRAYAGG(JSON_OBJECT('name', names.name, 'discription', discription))
+        FROM (SELECT name, discription
+              FROM u_groups ug
+              WHERE id IN
+                    (SELECT gu.group_id
+                     FROM group_user gu
+                     WHERE gu.user_id = :id))
+                 as names)
+           as group_data
+FROM users
+where id != :id;
 SQL
         );
         $stmt->execute(['id' => $id]);

@@ -91,7 +91,7 @@ if (isset($_SESSION['user'])) {
 //    $messageStorage = new MessageStorage($connect, $userStorage);
 //    $incomingMessages = $messageStorage->getMessagesListByRecipientId($_SESSION['user']);
 //    $outgoingMessages = $messageStorage->getMessagesListBySenderId($_SESSION['user']);
-//    $allUsers = $userStorage->getAllUsers($_SESSION['user']);
+//    $allUsers = $userStorage->getAllOtherUsers($_SESSION['user']);
 }
 // Это для Messages
 //if (isset($_POST['submit_message'])) {

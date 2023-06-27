@@ -195,7 +195,7 @@ function saveFile(array $fileData, string $imgDir): void
  * @param $imgDir
  * @return void
  */
-function showGallary($imgDir): string
+function showGallary($imgDir): void
 {
     if (!empty (array_diff(scandir($imgDir), array('..', '.')))) {
         $imgNames = array_diff(scandir($imgDir), array('..', '.'));

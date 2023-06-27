@@ -2,122 +2,87 @@
 
 class User
 {
-    private $userFullName;
-    private $userFirstName;
-    private $userLastName;
-    private $userMiddleName;
-    private $userEmail;
-    private $userPhoneNumber;
-    private $userGroup;
-    private $userGroupDescription;
-    private $userGroupId;
-    private $UserId;
+    private string $firstName;
+    private string $lastName;
+    private string $middleName;
+    private string $email;
+    private int $phoneNumber;
+    private array $groups;
+    private int $id;
 
-    public function __construct($dbRowUser, $dbRowGroup = [])
+    public function __construct($dbRow)
     {
-
-        $this->userFullName = $dbRowUser['surname'] . " " . $dbRowUser['first_name'] . " " . $dbRowUser['middle_name'];
-        $this->userFirstName = $dbRowUser['first_name'];
-        $this->userMiddleName = $dbRowUser['middle_name'];
-        $this->userLastName = $dbRowUser['surname'];
-        $this->userEmail = $dbRowUser['email'];
-        $this->userPhoneNumber = $dbRowUser['phone_number'];
-        $this->UserId = $dbRowUser['id'];
-
-        if (!empty($dbRowGroup)) {
-            foreach ($dbRowGroup as $group) {
-                $this->userGroup[] = $group['name'];
-            }
-
-            foreach ($dbRowGroup as $desc) {
-                $this->userGroupDescription[] = $desc['discription'];
-            }
-
-            foreach ($dbRowGroup as $id) {
-                $this->userGroupId[] = $id['group_id'];
-            }
-        }
+        $this->firstName = $dbRow['first_name'];
+        $this->middleName = $dbRow['middle_name'];
+        $this->lastName = $dbRow['surname'];
+        $this->email = $dbRow['email'];
+        $this->phoneNumber = $dbRow['phone_number'];
+        $this->id = $dbRow['id'];
+        $this->groups = json_decode($dbRow['group_data'], true);
     }
-
 
     /**
      * @return string
      */
     public function getUserFullName(): string
     {
-        return $this->userFullName;
+        return $this->lastName . " " . $this->firstName . " " . $this->middleName;
     }
 
     /**
      * @return string
      */
-    public function getUserEmail(): string
+    public function getEmail(): string
     {
-        return $this->userEmail;
+        return $this->email;
     }
 
     /**
      * @return int
      */
-    public function getUserPhoneNumber(): int
+    public function getPhoneNumber(): int
     {
-        return $this->userPhoneNumber;
+        return $this->phoneNumber;
     }
 
     /**
      * @return array
      */
-    public function getUserGroup(): array
+    public function getGroups(): array
     {
-        return $this->userGroup;
-    }
-
-    /**
-     * @return array
-     */
-    public function getUserGroupDescription(): array
-    {
-        return $this->userGroupDescription;
-    }
-
-    /**
-     * @return array
-     */
-    public function getUserGroupId(): array
-    {
-        return $this->userGroupId;
+        return $this->groups;
     }
 
     /**
      * @return string
      */
-    public function getUserFirstName(): string
+    public function getFirstName(): string
     {
-        return $this->userFirstName;
+        return $this->firstName;
     }
 
     /**
      * @return string
      */
-    public function getUserLastName(): string
+    public function getLastName(): string
     {
-        return $this->userLastName;
+        return $this->lastName;
     }
 
     /**
      * @return string
      */
-    public function getUserMiddleName(): string
+    public function getMiddleName(): string
     {
-        return $this->userMiddleName;
+        return $this->middleName;
     }
 
     /**
      * @return int
      */
-    public function getUserId(): int
+    public function getId(): int
     {
-        return $this->UserId;
+        return $this->id;
     }
 
 }
