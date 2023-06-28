@@ -85,4 +85,15 @@ class User
         return $this->id;
     }
 
+    /**
+     * @return array
+     */
+    public function getGroupsIds(): array
+    {
+        foreach ($this->groups as $group) {
+            $groupsId[] = $group['id'];
+        }
+        return $groupsId;
+    }
+
 }
