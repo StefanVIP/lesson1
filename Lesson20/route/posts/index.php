@@ -1,6 +1,5 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/header.php';
-// $userAuth->isAuthorized() ?: header("Location: /index.php?login=yes");
 ?>
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
@@ -49,9 +48,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/header.php';
                     } ?>
                     </tbody>
                 </table>
-                <?php if (in_array(4, $user->getGroupId())) {
+                <?php if (in_array(4, $user->getGroupsIds())) {
                     echo "<h2><strong><a href='add/index.php'>Отправить сообщение</a></strong></h2>";
-                } else if (in_array(3, $user->getGroupId())) {
+                } else if (in_array(3, $user->getGroupsIds())) {
                     echo "<p> Вы сможете отправлять сообщения после прохождения модерации</p>"; }?>
             </td>
         </tr>

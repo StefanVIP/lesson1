@@ -54,8 +54,8 @@ WHERE id = :id;
 SQL
         );
         $stmt->execute(['id' => $id]);
-        $dbRow = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $this->getMessageFromDbRow($dbRow[0]);
+        $dbRow = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->getMessageFromDbRow($dbRow);
     }
 
     private function getMessageFromDbRow(array $dbRow): Message

@@ -9,7 +9,6 @@ class User
     private int $phoneNumber;
     private array $groups;
     private int $id;
-    private array $groupId;
 
     public function __construct(array $dbRow)
     {
@@ -87,14 +86,14 @@ class User
     }
 
     /**
-     * @return int
+     * @return array
      */
-    public function getGroupId(): array
+    public function getGroupsIds(): array
     {
         foreach ($this->groups as $group) {
-            $this->groupId[] = $group['id'];
+            $groupsId[] = $group['id'];
         }
-        return $this->groupId;
+        return $groupsId;
     }
 
 }
